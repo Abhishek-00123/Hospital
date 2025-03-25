@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+{% load static %}
+
+<!-- Carousel Section -->
+<!-- Bootstrap Carousel with Overlay Text -->
+<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="5000">
+        <img src="{% static '/images/car1.jpg' %}" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+          <h3 class="text-light">Welcome to City Hospital</h3>
+          <p class="text-light">Your health, our priority.</p>
+        </div>
+      </div>
+
+      <div class="carousel-item" data-bs-interval="5000">
+        <img src="{% static '/images/car2.jpg' %}" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+          <h3 class="text-light">Advanced Medical Care</h3>
+          <p class="text-light">Providing excellence in healthcare.</p>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="{% static '/images/car3.jpg' %}" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+          <h3 class="text-light">Compassion & Commitment</h3>
+          <p class="text-light">Healing with care and expertise.</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- Quote Section with Styling -->
+<section class="text-center my-5 px-3">
+  <div class="container">
+    <div class="p-4 bg-light border rounded shadow">
+      <h3 class="fw-bold text-primary">
+        "At City Hospital, we don’t just treat illnesses—we care for people. With compassion in our hearts and excellence in our hands, we are committed to healing, hope, and a healthier tomorrow."
+      </h3>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

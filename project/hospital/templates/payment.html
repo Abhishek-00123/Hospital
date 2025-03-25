@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+Payment
+{% endblock %}
+
+{% block content %}
+<div class='col-6 mx-auto'>
+    {% comment %} <div class='text-center mt-5'>
+       <p>hey</p> 
+    </div> {% endcomment %}
+    <form action="pay" method='POST'>
+       {% csrf_token %}
+       
+        <div class="form-group"><br><br>
+            <p>You have to pay 200 rupees as a appointment booking charge</p>
+            <label for="exampleamount1">Enter amount</label>
+            {% comment %} <input type='number' name='amount' class="form-control" id="exampleamount1" placeholder="amount"> {% endcomment %}
+            <input type="number" name="amount" class="form-control" id="exampleamount1" value="200" readonly>
+
+          </div>
+          <button type="submit" class="btn btn-success btn-block">Submit</button>
+    </form>
+
+{% if payment %}
+<div class='text-center mx-auto'>
+<form action="/success" method="POST">
+    {% csrf_token %}
+    <script
+       src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key="rzp_test_s9NGH58YEB5LpP" 
+        data-amount="{{payment.amount}}" 
+        data-currency="INR"
+        data-order_id="{{ payment.id }}"
+        data-buttontext="Pay with Razorpay"
+        data-name="Doctor Appointment"
+        data-description="Booking charge for appointment"
+        data-image="https://example.com/your_logo.jpg"
+        data-prefill.name="Gaurav Kumar"
+        data-prefill.email="gaurav.kumar@example.com"
+        data-theme.color="#F37254"
+    ></script>
+    <input type="hidden" custom="Hidden Element" name="hidden"/>
+</form>
+</div>
+{% endif %}
+
+{% endblock %}

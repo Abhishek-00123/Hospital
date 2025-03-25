@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+contact
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">Contact Us</h2>
+    <div class="row">
+        <!-- Contact Details -->
+        <div class="col-md-6">
+            <div class="card p-4 shadow-sm">
+                <h4>City Hospital</h4>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Main Street, City, Country</p>
+                <p><i class="fas fa-phone"></i> +91 12345 67890</p>
+                <p><i class="fas fa-envelope"></i> contact@cityhospital.com</p>
+                <p><i class="fas fa-clock"></i> Mon - Sat: 9:00 AM - 8:00 PM</p>
+            </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div class="col-md-6">
+            <div class="card p-4 shadow-sm">
+                <h4 class="mb-3">Send Us a Message</h4>
+                <form method="POST" onsubmit="showAlert(event)">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Map -->
+    <div class="mt-5">
+        <h4 class="text-center">Our Location</h4>
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item w-100" height="300"
+                src="https://www.google.com/maps/embed?..." 
+                style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+<script>
+    function showAlert(event) {
+        event.preventDefault(); // Prevent form submission
+        alert("Your message is submitted");
+        event.target.submit(); // Submit the form after alert
+    }
+</script>
+</div>{% endblock %}
