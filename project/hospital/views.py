@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Departments,Doctors
+from .models import Departments,Doctors,SuccessfulBooking
+from hospital.models import Booking
 from .forms import BookingForm,ContactForm,DoctorRegistrationForm
 import razorpay
 from django.conf import settings
@@ -34,32 +35,53 @@ def booking(request):
     if request.method=="POST":
         form=BookingForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('pay')
+            booking=form.save()
+            return redirect('pay',booking_id=booking.id)
             # return render(request,'confirmation.html')
         
     form=BookingForm()
-    dict_form={
-        'form':form
+    # dict_form={
+    #     'form':form
+    # }
+    return render(request,'booking.html',{'form': form})
+
+def pay(request, booking_id):
+    booking = Booking.objects.get(id=booking_id)
+    amount = 500 * 100  # Example: ₹500 per appointment
+
+    client = razorpay.Client(auth=('rzp_test_s9NGH58YEB5LpP', '7Zv6d2Puo91rM0fIfJDT3sew'))
+    payment_order = client.order.create({'amount': amount, 'currency': 'INR', 'payment_capture': '1'})
+
+    context = {
+        'payment': payment_order,
+        'booking': booking,
+        'amount': amount / 100
     }
-    return render(request,'booking.html',dict_form)
-
-def pay(request):
-    if request.method=="POST":
-        amount = int(request.POST.get('amount'))*100
-        client=razorpay.Client(auth=('rzp_test_s9NGH58YEB5LpP','7Zv6d2Puo91rM0fIfJDT3sew'))
-       
-
-        payment_order = client.order.create ({'amount':amount,'currency':'INR','payment_capture':'1'})
-        print(payment_order)
-        return render(request,'payment.html',{'payment':payment_order})
-    return render(request,'payment.html')
+    return render(request, 'payment.html', context)
 
 
 
-
+@csrf_exempt
 def payment_success(request):
-    return render(request,'confirmation.html')
+    if request.method == "POST":
+        response = request.POST
+        payment_id = response.get('razorpay_payment_id')
+        booking_id = response.get('booking_id')
+
+        if payment_id and booking_id:
+            booking = Booking.objects.get(id=booking_id)
+
+            # ✅ Save successful payment
+            SuccessfulBooking.objects.create(
+                booking=booking,
+                payment_id=payment_id,
+                payment_status=True
+            )
+
+            return render(request, 'confirmation.html', {'booking': booking})
+
+    return HttpResponse("Payment failed", status=400)
+
 
 
 

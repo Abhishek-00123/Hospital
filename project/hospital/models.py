@@ -46,5 +46,13 @@ class ContactMessage(models.Model):
     
     
 
+class SuccessfulBooking(models.Model):
+    booking=models.OneToOneField(Booking,on_delete=models.CASCADE)
+    payment_id=models.CharField(max_length=50,unique=True)
+    payment_status=models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.booking.p_name}-{self.booking.doc_name} ({'Paid' if self.payment_status else 'Pending'})"
+
 
  
